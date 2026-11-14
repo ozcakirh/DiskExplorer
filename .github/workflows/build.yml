@@ -1,27 +1,31 @@
-name: Windows EXE Derle
+name: Otomatik Release ve EXE Derleme
 
 on:
   push:
-    branches: [ "main", "master" ]
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  build-and-release:
     runs-on: windows-latest
 
     steps:
-    - name: Kodları Çek
-      uses: actions/checkout@v4
+      - name: Kodları İndir
+        uses: actions/checkout@v4
 
-    - name: .NET Kurulumu
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '10.0.x'
+      - name: .NET Kurulumu
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
 
-    - name: Bağımlılıkları Yükle ve Yayınla (Publish)
-      run: dotnet publish -c Release -r win-x64 --self-contained false -o ./publish
+      - name: Tek Dosya EXE Olarak Yayınla
+        run: dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./publish
 
-    - name: Çıktıyı (Artifact) Yükle
-      uses: actions/upload-artifact@v4
-      with:
-        name: DiskExplorer-Win64
-        path: ./publish
+      - name: GitHub Release Oluştur ve EXE Ekle
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./publish/DiskExplorer.exe
+          generate_release_notes: true
