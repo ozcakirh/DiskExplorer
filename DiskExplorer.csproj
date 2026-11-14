@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>DiskExplorer</RootNamespace>
+    <AssemblyName>DiskExplorer</AssemblyName>
+    <!-- .exe dosyasının (Explorer / görev çubuğu) ikonu -->
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Pencere başlık çubuğu ikonu için kaynak olarak göm -->
+    <Resource Include="app.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- MimeType tespiti için System.Web.MimeMapping kullanılıyor -->
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+</Project>
